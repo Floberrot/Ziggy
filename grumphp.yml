@@ -21,7 +21,6 @@ grumphp:
                 - "dd("
             regexp_type: G
             ignore_patterns:
-                - 'src/Infrastructure/Symfony/Command/Deprecated/GenerateTranslationKeysCommand.php'
                 - 'tests/bootstrap.php'
         phpcsfixer:
             metadata:
