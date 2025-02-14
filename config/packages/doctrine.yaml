@@ -18,12 +18,12 @@ doctrine:
             Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
         auto_mapping: true
         mappings:
-            App:
+            Care:
                 type: xml
+                dir: '%kernel.project_dir%/src/Care/Domain/Mapping'
+                prefix: 'App\Care\Domain\Model'
                 is_bundle: false
-                dir: '%kernel.project_dir%/src'
-                prefix: 'App'
-                alias: App
+                
         controller_resolver:
             auto_mapping: false
 
