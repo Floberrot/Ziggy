@@ -1,0 +1,42 @@
+# https://github.com/phpro/grumphp
+grumphp:
+    stop_on_failure: true
+    parallel:
+        enabled: false
+    process_timeout: null
+    fixer:
+        enabled: true
+        fix_by_default: true
+    # https://github.com/phpro/grumphp/blob/master/doc/tasks.md
+    tasks:
+        git_blacklist:
+            metadata:
+                priority: 30
+            match_word: true
+            keywords:
+                - "die("
+                - "var_dump("
+                - "echo "
+                - "dump("
+                - "dd("
+            regexp_type: G
+            ignore_patterns:
+                - 'src/Infrastructure/Symfony/Command/Deprecated/GenerateTranslationKeysCommand.php'
+                - 'tests/bootstrap.php'
+        phpcsfixer:
+            metadata:
+                priority: 30
+            allow_risky: ~
+            cache_file: ~
+            config: .php-cs-fixer.dist.php
+            using_cache: ~
+            config_contains_finder: true
+            verbose: true
+            diff: true
+            triggered_by: [ 'php' ]
+        doctrine_schema_validate:
+            metadata:
+                priority: 0
+            skip_mapping: false
+            skip_sync: true
+            triggered_by: [ 'php', 'xml', 'yml' ]
