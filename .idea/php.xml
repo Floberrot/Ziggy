@@ -167,7 +167,6 @@
       <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
       <path value="$PROJECT_DIR$/vendor/gitonomy/gitlib" />
       <path value="$PROJECT_DIR$/vendor/kelunik/certificate" />
-      <path value="$PROJECT_DIR$/vendor/phpro/grumphp" />
       <path value="$PROJECT_DIR$/vendor/revolt/event-loop" />
       <path value="$PROJECT_DIR$/vendor/amphp/pipeline" />
       <path value="$PROJECT_DIR$/vendor/amphp/parallel" />
@@ -180,6 +179,7 @@
       <path value="$PROJECT_DIR$/vendor/amphp/byte-stream" />
       <path value="$PROJECT_DIR$/vendor/amphp/cache" />
       <path value="$PROJECT_DIR$/vendor/amphp/serialization" />
+      <path value="$PROJECT_DIR$/vendor/phpro/grumphp" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

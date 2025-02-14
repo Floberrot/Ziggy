@@ -33,9 +33,3 @@ grumphp:
             verbose: true
             diff: true
             triggered_by: [ 'php' ]
-        doctrine_schema_validate:
-            metadata:
-                priority: 0
-            skip_mapping: false
-            skip_sync: true
-            triggered_by: [ 'php', 'xml', 'yml' ]
