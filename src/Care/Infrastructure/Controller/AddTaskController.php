@@ -17,16 +17,15 @@ use Throwable;
 #[Route('', name: 'add_task', methods: ['POST'])]
 class AddTaskController extends AbstractController
 {
-
     public function __construct(
         private readonly MessengerCommandBus $commandBus,
-        private readonly NormalizerInterface $normalizer
+        private readonly NormalizerInterface $normalizer,
     )
     {
     }
 
     public function __invoke(
-        #[MapRequestPayload] AddTaskMessage $message
+        #[MapRequestPayload] AddTaskMessage $message,
     ): JsonResponse
     {
         try {
@@ -36,7 +35,7 @@ class AddTaskController extends AbstractController
             // todo: query bus ? auto normalize in querybus ?
             return new JsonResponse([
                 'message' => 'Task added',
-                'data' => $this->normalizer->normalize(data: $task, context: ['groups' => 'task:read'])
+                'data' => $this->normalizer->normalize(data: $task, context: ['groups' => 'task:read']),
             ], 201);
         } catch (Throwable $t) {
             return new JsonResponse(['error' => $t->getMessage()], 500);
