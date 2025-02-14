@@ -30,9 +30,8 @@ final readonly class MessengerCommandBus implements CommandBus
         try {
             $this->commandBus->dispatch($command);
             $this->logger->info('command dispatched: ' . $commandName);
-            $this->entityManager->flush();
-            $this->logger->info('transaction committed for command: ' . $commandName);
             $this->entityManager->commit();
+            $this->logger->info('transaction committed for command: ' . $commandName);
         } catch (ExceptionInterface $e) {
             $this->logger->critical('an error occurred, transaction rolled back for command: ' . $commandName);
             $this->entityManager->rollback();
