@@ -12,11 +12,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use UnitEnum;
 
 #[AutoconfigureTag('serializer.normalizer')]
-class ModelNormalizer implements NormalizerInterface
+readonly class ModelNormalizer implements NormalizerInterface
 {
     public function __construct(
         #[Autowire(service: 'serializer.normalizer.object')]
-        private readonly NormalizerInterface $normalizer,
+        private NormalizerInterface $normalizer,
     )
     {
     }
