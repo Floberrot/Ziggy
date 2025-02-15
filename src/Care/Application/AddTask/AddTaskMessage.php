@@ -3,7 +3,7 @@
 namespace App\Care\Application\AddTask;
 
 use App\Care\Domain\Enum\CareTypeEnum;
-use App\Shared\Domain\Bus\Command\Command;
+use App\Shared\Application\Command\Command;
 use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\NotNull;
 

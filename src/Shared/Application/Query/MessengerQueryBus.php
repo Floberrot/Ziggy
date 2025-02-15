@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Domain\Bus\Query;
+namespace App\Shared\Application\Query;
 
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
@@ -16,15 +16,16 @@ class MessengerQueryBus implements QueryBus
 
     public function __construct(
         private readonly MessageBusInterface $queryBus,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
     )
     {
         $this->messageBus = $queryBus;
     }
 
-    public function handle(Query $message): mixed
+    public function ask(Query $message): mixed
     {
         $this->logger->info('Entering query bus' . get_class($message));
+
         return $this->handleQuery($message);
     }
 }

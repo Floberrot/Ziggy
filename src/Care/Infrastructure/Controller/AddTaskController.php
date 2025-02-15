@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Care\Infrastructure\Controller;
 
 use App\Care\Application\AddTask\AddTaskMessage;
-use App\Shared\Domain\Bus\Command\MessengerCommandBus;
+use App\Care\Application\GetTaskById\GetTaskMessage;
+use App\Shared\Application\Command\MessengerCommandBus;
+use App\Shared\Application\Query\MessengerQueryBus;
 use App\Shared\Infrastructure\Utils\ParameterBag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Throwable;
 
 #[Route('', name: 'add_task', methods: ['POST'])]
@@ -19,7 +20,7 @@ class AddTaskController extends AbstractController
 {
     public function __construct(
         private readonly MessengerCommandBus $commandBus,
-        private readonly NormalizerInterface $normalizer,
+        private readonly MessengerQueryBus $queryBus,
     )
     {
     }
@@ -32,13 +33,15 @@ class AddTaskController extends AbstractController
             $this->commandBus->dispatch($message);
             $task = ParameterBag::getInstance()->get("Task");
 
-            // todo: query bus ? auto normalize in querybus ?
+            $getTask = new GetTaskMessage(id: $task->getId());
+            $response = $this->queryBus->ask($getTask);
+
             return new JsonResponse([
                 'message' => 'Task added',
-                'data' => $this->normalizer->normalize(data: $task, context: ['groups' => 'task:read']),
+                'data' => $response->getNormalizedData(),
             ], 201);
         } catch (Throwable $t) {
-            return new JsonResponse(['error' => $t->getMessage()], 500);
+            return new JsonResponse(['error' => $t->getMessage()], $t->getCode() < 100 ? 500 : $t->getCode());
         }
     }
 }

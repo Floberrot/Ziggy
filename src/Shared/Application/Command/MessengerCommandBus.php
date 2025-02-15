@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Domain\Bus\Command;
+namespace App\Shared\Application\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Monolog\Attribute\WithMonologChannel;
@@ -14,7 +14,7 @@ final readonly class MessengerCommandBus implements CommandBus
     public function __construct(
         private MessageBusInterface $commandBus,
         private EntityManagerInterface $entityManager,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
     )
     {
     }

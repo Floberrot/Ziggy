@@ -3,9 +3,11 @@
 namespace App\Care\Domain\Model;
 
 use App\Care\Domain\Enum\CareTypeEnum;
+use App\Shared\Domain\Model\Model;
+use Stringable;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-class Task implements \Stringable
+class Task extends Model implements Stringable
 {
     #[Groups(['task:read'])]
     private int $id;

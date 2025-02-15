@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Domain\Bus\Command;
+namespace App\Shared\Application\Command;
 
 interface CommandBus
 {
