@@ -27,9 +27,9 @@ readonly class AddTaskHandler implements CommandHandler
     public function handle(AddTaskMessage $message): void
     {
         $task = new Task();
-        $task->setCareType(CareTypeEnum::from($message->careType));
-        $task->setComment($message->comment);
-        $task->setDone($message->done);
+        $task->setCareType(CareTypeEnum::from($message->careType))
+            ->setComment($message->comment)
+            ->setDone($message->done);
 
         $this->taskRepository->save($task);
 

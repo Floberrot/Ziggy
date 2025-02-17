@@ -26,9 +26,11 @@ class Task extends Model implements Stringable
         return $this->careType;
     }
 
-    public function setCareType(CareTypeEnum $careType): void
+    public function setCareType(CareTypeEnum $careType): self
     {
         $this->careType = $careType;
+
+        return $this;
     }
 
     public function getId(): int
@@ -46,9 +48,11 @@ class Task extends Model implements Stringable
         return $this->comment;
     }
 
-    public function setComment(?string $comment): void
+    public function setComment(?string $comment): self
     {
         $this->comment = $comment;
+
+        return $this;
     }
 
     public function isDone(): bool
@@ -56,8 +60,10 @@ class Task extends Model implements Stringable
         return $this->done;
     }
 
-    public function setDone(bool $done): void
+    public function setDone(bool $done): self
     {
         $this->done = $done;
+
+        return $this;
     }
 }
