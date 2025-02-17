@@ -15,6 +15,12 @@ class Task extends Model implements Stringable
     #[Groups(['task:read'])]
     private CareTypeEnum $careType;
 
+    #[Groups(['task:read'])]
+    private ?string $comment;
+
+    #[Groups(['task:read'])]
+    private bool $done = false;
+
     public function getCareType(): CareTypeEnum
     {
         return $this->careType;
@@ -33,5 +39,25 @@ class Task extends Model implements Stringable
     public function __toString(): string
     {
         return json_encode(array_map(fn($value) => $value, get_object_vars($this)));
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): void
+    {
+        $this->comment = $comment;
+    }
+
+    public function isDone(): bool
+    {
+        return $this->done;
+    }
+
+    public function setDone(bool $done): void
+    {
+        $this->done = $done;
     }
 }

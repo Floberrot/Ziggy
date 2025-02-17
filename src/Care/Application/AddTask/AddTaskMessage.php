@@ -14,4 +14,8 @@ class AddTaskMessage implements Command
     )]
     #[NotNull]
     public string $careType;
+
+    public ?string $comment = null;
+
+    public bool $done = false;
 }

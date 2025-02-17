@@ -28,6 +28,8 @@ readonly class AddTaskHandler implements CommandHandler
     {
         $task = new Task();
         $task->setCareType(CareTypeEnum::from($message->careType));
+        $task->setComment($message->comment);
+        $task->setDone($message->done);
 
         $this->taskRepository->save($task);
 
