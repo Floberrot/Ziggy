@@ -2,7 +2,7 @@
                   xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
                   xsi:noNamespaceSchemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="App\Care\Domain\Model\Task" table="task">
+    <entity name="App\Care\Domain\Model\Task" table="task" repository-class="App\Care\Domain\Repository\TaskRepository">
         <id name="id" type="integer">
             <generator strategy="AUTO" />
         </id>

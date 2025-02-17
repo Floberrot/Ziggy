@@ -23,6 +23,21 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Care/Domain/Mapping'
                 prefix: 'App\Care\Domain\Model'
                 is_bundle: false
+            User:
+                type: xml
+                dir: '%kernel.project_dir%/src/User/Domain/Mapping'
+                prefix: 'App\User\Domain\Model'
+                is_bundle: false
+            Owner:
+                type: xml
+                dir: '%kernel.project_dir%/src/Owner/Domain/Mapping'
+                prefix: 'App\Owner\Domain\Model'
+                is_bundle: false
+            Sitter:
+                type: xml
+                dir: '%kernel.project_dir%/src/Sitter/Domain/Mapping'
+                prefix: 'App\Sitter\Domain\Model'
+                is_bundle: false
                 
         controller_resolver:
             auto_mapping: false

@@ -3,7 +3,11 @@ framework:
     secret: '%env(APP_SECRET)%'
 
     # Note that the session will be started ONLY if you read or write from it.
-    session: true
+    session:
+        handler_id: null  # Use default session handler
+        cookie_lifetime: 3600  # (Optional) Set the lifetime of the session cookie
+        cookie_samesite: lax  # (Optional) Ensure SameSite cookie attribute is set
+        name: PHPSESSID  # Use the default session cookie name
 
     #esi: true
     #fragments: true

@@ -3,6 +3,16 @@ task:
     type: attribute
     prefix: '/api/tasks'
     trailing_slash_on_root: false
+login:
+    resource: '../src/User/Infrastructure/Controller/'
+    type: attribute
+    prefix: '/api/login'
+    trailing_slash_on_root: false
+owner:
+    resource: '../src/Owner/Infrastructure/Controller/'
+    type: attribute
+    prefix: '/api/owners'
+    trailing_slash_on_root: false
 
 app.swagger_ui:
     path: /api/doc

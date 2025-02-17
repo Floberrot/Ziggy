@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250214100841 extends AbstractMigration
+final class Version20250217153113 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -19,13 +19,11 @@ final class Version20250214100841 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE task (id SERIAL NOT NULL, care_type VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE task (id SERIAL NOT NULL, care_type VARCHAR(255) NOT NULL, comment TEXT DEFAULT NULL, done BOOLEAN NOT NULL, PRIMARY KEY(id))');
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('DROP TABLE task');
     }
 }
