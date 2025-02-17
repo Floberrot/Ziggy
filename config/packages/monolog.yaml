@@ -1,22 +1,30 @@
 monolog:
-    channels: [ 'query-bus', 'command-bus', 'doctrine-saver', 'notify-user-listener' ]
+    channels: ['query-bus', 'command-bus', 'doctrine-saver', 'notify-user-listener' ]
     handlers:
         command_bus_log:
-            type: stream
+            type: rotating_file
             path: '%kernel.logs_dir%/%kernel.environment%/command-bus.log'
             channels: [ 'command-bus' ]
+            level: debug
+            max_files: 10
         query_bus_log:
-            type: stream
+            type: rotating_file
             path: '%kernel.logs_dir%/%kernel.environment%/query-bus.log'
             channels: [ 'query-bus' ]
+            level: debug
+            max_files: 10
         doctrine_saver_log:
-            type: stream
+            type: rotating_file
             path: '%kernel.logs_dir%/%kernel.environment%/doctrine-saver.log'
             channels: [ 'doctrine-saver' ]
+            level: debug
+            max_files: 10
         notify_user_listener_log:
-            type: stream
+            type: rotating_file
             path: '%kernel.logs_dir%/%kernel.environment%/notify-user-listener.log'
             channels: [ 'notify-user-listener' ]
+            level: debug
+            max_files: 10
 
 when@dev:
     monolog:
@@ -25,11 +33,7 @@ when@dev:
                 type: stream
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
                 level: debug
-                channels: [ "!event" ]
-            console:
-                type: console
-                process_psr_3_messages: false
-                channels: [ "!event", "!doctrine", "!console" ]
+                channels: [ ]
 
 when@test:
     monolog:

@@ -2,21 +2,19 @@
 
 namespace App\Shared\Infrastructure\Listener;
 
-// #[AsEventListener(event: PhoneNumberAwareEvent::class,  priority: -10)]
 use App\Care\Domain\Event\TaskCreated;
 use App\Shared\Domain\Event\PhoneNumberAwareEvent;
-use App\Shared\Infrastructure\Notifier\Twilio;
 use Exception;
+use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener(event: TaskCreated::class, priority: -10)]
-// #[WithMonologChannel('notify-user-listener')]
-class NotifyUserLister
+#[WithMonologChannel('notify-user-listener')]
+readonly class NotifyUserLister
 {
     public function __construct(
-        private readonly Twilio $twilio,
-        private readonly LoggerInterface $logger,
+        private LoggerInterface $logger,
     )
     {
     }
@@ -24,10 +22,10 @@ class NotifyUserLister
     public function __invoke(PhoneNumberAwareEvent $event): void
     {
         try {
-            throw new Exception('Error sending SMS');
-            $this->twilio->send($event->getPhoneNumber(), 'Task created');
+            // todo: send sms
+            throw new Exception('sms service not implemented');
         } catch (Exception) {
-            $this->logger->alert('Error sending SMS');
+            $this->logger->warning('Error sending SMS', ['event' => $event]);
         }
     }
 }

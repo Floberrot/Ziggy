@@ -5,10 +5,8 @@ namespace App\Shared\Domain\Repository;
 use App\Shared\Infrastructure\Utils\ParameterBag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 
-#[WithMonologChannel('doctrine-saver')]
 abstract class AbstractRepository extends ServiceEntityRepository
 {
     protected string $entityName;
@@ -16,7 +14,7 @@ abstract class AbstractRepository extends ServiceEntityRepository
     public function __construct(
         ManagerRegistry $registry,
         string $entityClass,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
     )
     {
         parent::__construct($registry, $entityClass);
@@ -27,10 +25,10 @@ abstract class AbstractRepository extends ServiceEntityRepository
 
     public function save($entity): void
     {
-        $this->logger->info('Saving entity', ['entity' => $entity]);
+        $this->logger->info('Saving entity', ['entity' => $this->entityName]);
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
-        $this->logger->info('Entity saved');
+        $this->logger->info('Entity saved' , ['entity' => $this->entityName]);
 
         ParameterBag::getInstance()->set("{$this->entityName}", $entity);
     }
