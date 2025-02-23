@@ -2,5 +2,16 @@
                   xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="App\Owner\Domain\Model\Owner" table="users" />
+    <entity name="App\Owner\Domain\Model\Owner" table="users">
+        <many-to-many field="cats" target-entity="App\Cat\Domain\Model\Cat">
+            <join-table name="cat_owners">
+                <join-columns>
+                    <join-column name="owner" referenced-column-name="id"/>
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="cat" referenced-column-name="id"/>
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+    </entity>
 </doctrine-mapping>

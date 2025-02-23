@@ -38,6 +38,11 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Sitter/Domain/Mapping'
                 prefix: 'App\Sitter\Domain\Model'
                 is_bundle: false
+            Cat:
+                type: xml
+                dir: '%kernel.project_dir%/src/Cat/Domain/Mapping'
+                prefix: 'App\Cat\Domain\Model'
+                is_bundle: false
                 
         controller_resolver:
             auto_mapping: false
