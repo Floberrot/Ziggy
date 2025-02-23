@@ -28,4 +28,9 @@ class MessengerQueryBus implements QueryBus
 
         return $this->handleQuery($message);
     }
+
+    public function getQueryBus(): MessageBusInterface
+    {
+        return $this->queryBus;
+    }
 }

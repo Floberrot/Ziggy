@@ -23,7 +23,7 @@ abstract class AbstractRepository extends ServiceEntityRepository
         $this->entityName = end($parts);
     }
 
-    public function save($entity): void
+    public function save(object $entity): void
     {
         $this->logger->info('Saving entity', ['entity' => $this->entityName]);
         $this->getEntityManager()->persist($entity);

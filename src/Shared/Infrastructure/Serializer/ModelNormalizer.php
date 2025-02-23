@@ -4,12 +4,12 @@ namespace App\Shared\Infrastructure\Serializer;
 
 use App\Shared\Domain\Model\Model;
 use ArrayObject;
+use BackedEnum;
 use ReflectionException;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use UnitEnum;
 
 #[AutoconfigureTag('serializer.normalizer')]
 readonly class ModelNormalizer implements NormalizerInterface
@@ -34,7 +34,7 @@ readonly class ModelNormalizer implements NormalizerInterface
         $result = $data->toNormalized($context);
 
         foreach ($result as $key => $value) {
-            if ($value instanceof UnitEnum) {
+            if ($value instanceof BackedEnum) {
                 $result[$key] = $value->value;
             }
 
@@ -53,6 +53,8 @@ readonly class ModelNormalizer implements NormalizerInterface
 
     public function getSupportedTypes(?string $format): array
     {
-        return [Model::class];
+        return [
+            Model::class => true,
+        ];
     }
 }

@@ -1,0 +1,15 @@
+parameters:
+    paths:
+        - 'src'
+    scanDirectories:
+        - 'src'
+    level: 6
+    excludePaths:
+        - 'tests/'
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - '#^.*no value type specified in iterable type array#'
+        - '#^.*OpenApi\\Attributes.*$#'
+        - '#^.*id is never written, only read.*$#'
+        - identifier: missingType.generics
+    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'

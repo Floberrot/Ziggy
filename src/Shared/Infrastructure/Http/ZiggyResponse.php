@@ -11,7 +11,7 @@ class ZiggyResponse extends JsonResponse
     {
         parent::__construct([
             'message' => $message,
-            'data' => $data->getNormalizedData() ?? [],
+            'data' => $data?->getNormalizedData(),
         ], $code);
     }
 }

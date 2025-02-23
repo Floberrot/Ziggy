@@ -4,6 +4,7 @@ namespace App\Shared\Infrastructure\Listener;
 
 use App\Shared\Domain\Exception\UserIsNotOwner;
 use App\Shared\Infrastructure\Attribute\Security\IsOwner;
+use App\User\Domain\Model\User;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
@@ -34,8 +35,10 @@ readonly class IsOwnerListener
         }
 
         if (!empty(array_filter($attributes, fn($attr) => $attr instanceof IsOwner))) {
-            if (!$this->authChecker->isGranted('IS_OWNER', $this->security->getUser())) {
-                throw new UserIsNotOwner($this->security->getUser()->getEmail());
+            /** @var User $user */
+            $user = $this->security->getUser();
+            if (!$this->authChecker->isGranted('IS_OWNER', $user)) {
+                throw new UserIsNotOwner($user->getEmail());
             }
         }
     }
