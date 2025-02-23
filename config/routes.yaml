@@ -16,6 +16,11 @@ owner:
 app_logout:
     path: /api/logout
     methods: GET
+cat:
+    resource: '../src/Cat/Infrastructure/Controller/'
+    type: attribute
+    prefix: '/api/cats'
+    trailing_slash_on_root: false
 
 app.swagger_ui:
     path: /api/doc

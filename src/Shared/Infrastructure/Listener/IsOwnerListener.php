@@ -6,12 +6,11 @@ use App\Shared\Domain\Exception\UserIsNotOwner;
 use App\Shared\Infrastructure\Attribute\Security\IsOwner;
 use App\User\Domain\Model\User;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-#[AsEventListener(event: ControllerArgumentsEvent::class, method: 'onKernelControllerArguments')]
+// #[AsEventListener(event: ControllerArgumentsEvent::class, method: 'onKernelControllerArguments')]
 readonly class IsOwnerListener
 {
     public function __construct(

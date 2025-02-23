@@ -3,20 +3,24 @@
 namespace App\Owner\Domain\Model;
 
 use App\User\Domain\Model\User;
+use Doctrine\Common\Collections\Collection;
 
 class Owner extends User
 {
     public const string ROLE = "ROLE_OWNER";
 
-    private array $cats = [];
+    private Collection $cats;
 
-    public function getCats(): array
+    // todo: improve get/set cats
+    public function getCats(): Collection
     {
         return $this->cats;
     }
 
-    public function setCats(array $cats): void
+    public function setCats(Collection $cats): self
     {
         $this->cats = $cats;
+
+        return $this;
     }
 }

@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Owner\Infrastructure\Controller;
+namespace App\Cat\Infrastructure\Controller;
 
-use App\Owner\Application\Command\RegisterOwner\RegisterOwnerMessage;
-use App\Owner\Domain\Model\Owner;
+use App\Cat\Application\Command\AddCat\AddCatMessage;
+use App\Cat\Application\Query\GetCat\GetCatMessage;
 use App\Shared\Application\Command\MessengerCommandBus;
 use App\Shared\Application\Query\MessengerQueryBus;
 use App\Shared\Infrastructure\Attribute\Security\IsOwner;
 use App\Shared\Infrastructure\Http\ExceptionResponse;
 use App\Shared\Infrastructure\Http\ZiggyResponse;
 use App\Shared\Infrastructure\Utils\ParameterBag;
-use App\User\Application\Query\GetUser\GetUserMessage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,31 +17,29 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 use Throwable;
 
-#[Route('', name: 'register_owner', methods: ['POST'])]
+#[Route('', name: 'add_new_cat', methods: ['POST'])]
 #[IsOwner]
-class RegisterOwnerController extends AbstractController
+class AddCatController extends AbstractController
 {
     public function __construct(
         private readonly MessengerCommandBus $commandBus,
-        private readonly MessengerQueryBus   $queryBus,
+        private readonly MessengerQueryBus $queryBus,
     )
     {
     }
 
     public function __invoke(
-        #[MapRequestPayload] RegisterOwnerMessage $message,
+        #[MapRequestPayload] AddCatMessage $message,
     ): JsonResponse
     {
         try {
             $this->commandBus->dispatch($message);
 
-            /** @var Owner $newOwner */
-            $newOwner = ParameterBag::getInstance()->get('Owner');
+            $addedCat = ParameterBag::getInstance()->get('Cat');
+            $getCatsMessage = new GetCatMessage($addedCat->getId());
+            $cat = $this->queryBus->ask($getCatsMessage);
 
-            $getUser = new GetUserMessage($newOwner->getId());
-            $user = $this->queryBus->ask($getUser);
-
-            return new ZiggyResponse("New user is register.", $user, Response::HTTP_CREATED);
+            return new ZiggyResponse('Cat added successfully', $cat, Response::HTTP_CREATED);
         } catch (Throwable $t) {
             return new ExceptionResponse($t);
         }

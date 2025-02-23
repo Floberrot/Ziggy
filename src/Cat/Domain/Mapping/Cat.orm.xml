@@ -8,21 +8,11 @@
             <generator/>
         </id>
 
-        <field name="name"/>
-        <field name="breed"/>
-        <field name="weight"/>
-        <field name="birthDate" type="date_immutable"/>
-        <field name="color"/>
-        <field name="gender"/>
-<!--        <many-to-many field="ownerId" target-entity="App\Owner\Domain\Model\Owner">-->
-<!--            <join-table name="user_cat">-->
-<!--                <join-columns>-->
-<!--                    <join-column name="catId" referenced-column-name="id"/>-->
-<!--                </join-columns>-->
-<!--                <inverse-join-columns>-->
-<!--                    <join-column name="ownerId" referenced-column-name="id"/>-->
-<!--                </inverse-join-columns>-->
-<!--            </join-table>-->
-<!--        </many-to-many>-->
+        <field name="name" unique="true"/>
+        <field name="breed" nullable="true"/>
+        <field name="weight" nullable="true"/>
+        <field name="birthDate" type="date_immutable" nullable="true"/>
+        <field name="color" nullable="true"/>
+        <field name="gender" length="255" enum-type="App\Cat\Domain\Enum\GenderEnum"/>
     </entity>
 </doctrine-mapping>
