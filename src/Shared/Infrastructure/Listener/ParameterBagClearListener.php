@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 #[AsEventListener(event: KernelEvents::TERMINATE, method: 'onKernelTerminate')]
-class ParameterBagClearListener
+readonly class ParameterBagClearListener
 {
     public function onKernelTerminate(TerminateEvent $event): void
     {

@@ -4,6 +4,7 @@ namespace App\Owner\Infrastructure\Controller;
 
 use App\Owner\Application\Command\RegisterOwner\RegisterOwnerMessage;
 use App\Shared\Application\Command\MessengerCommandBus;
+use App\Shared\Infrastructure\Attribute\Security\IsOwner;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Throwable;
 
 #[Route('', name: 'register_owner', methods: ['POST'])]
+#[IsOwner]
 class RegisterOwnerController extends AbstractController
 {
     public function __construct(
