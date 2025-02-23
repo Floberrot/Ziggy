@@ -13,6 +13,9 @@ owner:
     type: attribute
     prefix: '/api/owners'
     trailing_slash_on_root: false
+app_logout:
+    path: /api/logout
+    methods: GET
 
 app.swagger_ui:
     path: /api/doc

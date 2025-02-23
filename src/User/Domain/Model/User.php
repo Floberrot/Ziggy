@@ -3,18 +3,30 @@
 namespace App\User\Domain\Model;
 
 use App\Shared\Domain\Model\Model;
+use Stringable;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Attribute\Groups;
 
-abstract class User extends Model implements UserInterface, PasswordAuthenticatedUserInterface
+abstract class User extends Model implements UserInterface, PasswordAuthenticatedUserInterface, Stringable
 {
-    protected int $id;
-    protected string $email;
-    protected string $password;
-    protected string $firstName;
-    protected string $lastName;
-    protected string $phone;
-    protected array $roles;
+    #[Groups(['user:read'])]
+    private int $id;
+    #[Groups(['user:read'])]
+    private string $email;
+    private string $password;
+    #[Groups(['user:read'])]
+    private string $firstName;
+    #[Groups(['user:read'])]
+    private string $lastName;
+    private string $phone;
+    #[Groups(['user:read'])]
+    private array $roles;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
     public function getEmail(): string
     {
@@ -99,5 +111,10 @@ abstract class User extends Model implements UserInterface, PasswordAuthenticate
         $this->phone = $phone;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return json_encode(array_map(fn($value) => $value, get_object_vars($this)));
     }
 }

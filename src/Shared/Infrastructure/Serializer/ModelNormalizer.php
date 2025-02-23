@@ -31,7 +31,7 @@ readonly class ModelNormalizer implements NormalizerInterface
             return $this->normalizer->normalize($data, $format, $context);
         }
 
-        $result = $data->toArray();
+        $result = $data->toNormalized($context);
 
         foreach ($result as $key => $value) {
             if ($value instanceof UnitEnum) {

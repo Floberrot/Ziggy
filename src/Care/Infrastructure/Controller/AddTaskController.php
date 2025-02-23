@@ -9,6 +9,7 @@ use App\Care\Application\GetTaskById\GetTaskMessage;
 use App\Shared\Application\Command\MessengerCommandBus;
 use App\Shared\Application\Query\MessengerQueryBus;
 use App\Shared\Infrastructure\Http\ExceptionResponse;
+use App\Shared\Infrastructure\Http\ZiggyResponse;
 use App\Shared\Infrastructure\Utils\ParameterBag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -37,10 +38,11 @@ class AddTaskController extends AbstractController
             $getTask = new GetTaskMessage(id: $task->getId());
             $response = $this->queryBus->ask($getTask);
 
-            return new JsonResponse([
-                'message' => 'Task added',
-                'data' => $response->getNormalizedData(),
-            ], 201);
+            return new ZiggyResponse(
+                message: 'Task added',
+                data: $response,
+                code: 201
+            );
         } catch (Throwable $t) {
             return new ExceptionResponse($t);
         }

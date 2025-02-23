@@ -6,6 +6,7 @@ use App\Care\Domain\Exception\Task\TaskNotFoundException;
 use App\Care\Domain\Repository\TaskRepository;
 use App\Shared\Application\Query\QueryHandler;
 use App\Shared\Application\Query\QueryResponse;
+use ReflectionException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
@@ -20,6 +21,7 @@ readonly class GetTaskHandler implements QueryHandler
 
     /**
      * @throws ExceptionInterface
+     * @throws ReflectionException
      */
     public function handle(GetTaskMessage $message): QueryResponse
     {
