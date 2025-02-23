@@ -2,16 +2,11 @@
 
 namespace App\Tests\Functionnal\Task;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Tests\Functionnal\ZiggyTestCase;
 use Zenstruck\Browser\Json;
-use Zenstruck\Browser\Test\HasBrowser;
 
-class AddTaskControllerTest extends WebTestCase
+class AddTaskControllerTest extends ZiggyTestCase
 {
-    use HasBrowser {
-        browser as baseKernelBrowser;
-    }
-
     public function testAddTask(): void
     {
         $response = $this->browser()->post('/api/tasks', [
@@ -29,6 +24,7 @@ class AddTaskControllerTest extends WebTestCase
 
     public function testAddTasButCareTypeNotFound(): void
     {
+        $this->loginAsOwner();
         $this->browser()->post('/api/tasks', [
             'json' => [
                 'careType' => 'nope',
@@ -37,5 +33,4 @@ class AddTaskControllerTest extends WebTestCase
             ->assertStatus(422)
             ->json();
     }
-
 }
