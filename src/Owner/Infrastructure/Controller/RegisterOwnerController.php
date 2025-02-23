@@ -5,6 +5,7 @@ namespace App\Owner\Infrastructure\Controller;
 use App\Owner\Application\Command\RegisterOwner\RegisterOwnerMessage;
 use App\Shared\Application\Command\MessengerCommandBus;
 use App\Shared\Infrastructure\Attribute\Security\IsOwner;
+use App\Shared\Infrastructure\Http\ExceptionResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +32,7 @@ class RegisterOwnerController extends AbstractController
 
             return new JsonResponse(null, Response::HTTP_CREATED);
         } catch (Throwable $t) {
-            return new JsonResponse(null, Response::HTTP_BAD_REQUEST);
+            return new ExceptionResponse($t);
         }
     }
 }

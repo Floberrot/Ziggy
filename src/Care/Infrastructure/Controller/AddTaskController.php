@@ -8,6 +8,7 @@ use App\Care\Application\AddTask\AddTaskMessage;
 use App\Care\Application\GetTaskById\GetTaskMessage;
 use App\Shared\Application\Command\MessengerCommandBus;
 use App\Shared\Application\Query\MessengerQueryBus;
+use App\Shared\Infrastructure\Http\ExceptionResponse;
 use App\Shared\Infrastructure\Utils\ParameterBag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -41,7 +42,7 @@ class AddTaskController extends AbstractController
                 'data' => $response->getNormalizedData(),
             ], 201);
         } catch (Throwable $t) {
-            return new JsonResponse(['error' => $t->getMessage()], $t->getCode() < 100 ? 500 : $t->getCode());
+            return new ExceptionResponse($t);
         }
     }
 }
