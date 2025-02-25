@@ -3,6 +3,7 @@
 namespace App\Care\Domain\Model;
 
 use App\Care\Domain\Enum\CareTypeEnum;
+use App\Owner\Domain\Model\Owner;
 use App\Shared\Domain\Model\Model;
 use Stringable;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -20,6 +21,8 @@ class Task extends Model implements Stringable
 
     #[Groups(['task:read'])]
     private bool $done = false;
+
+    private ?Owner $owner = null;
 
     public function getCareType(): CareTypeEnum
     {
@@ -63,6 +66,18 @@ class Task extends Model implements Stringable
     public function setDone(bool $done): self
     {
         $this->done = $done;
+
+        return $this;
+    }
+
+    public function getOwner(): Owner
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(Owner $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }

@@ -13,5 +13,6 @@
                 </inverse-join-columns>
             </join-table>
         </many-to-many>
+        <one-to-many field="tasks" target-entity="App\Care\Domain\Model\Task" mapped-by="owner"/>
     </entity>
 </doctrine-mapping>
