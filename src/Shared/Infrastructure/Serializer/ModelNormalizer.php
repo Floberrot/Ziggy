@@ -4,7 +4,6 @@ namespace App\Shared\Infrastructure\Serializer;
 
 use App\Shared\Domain\Model\Model;
 use ArrayObject;
-use BackedEnum;
 use DateTimeImmutable;
 use ReflectionException;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
@@ -35,10 +34,6 @@ readonly class ModelNormalizer implements NormalizerInterface
         $result = $data->toNormalized($context);
 
         foreach ($result as $key => $value) {
-            if ($value instanceof BackedEnum) {
-                $result[$key] = $value->value;
-            }
-
             if (is_object($value)) {
                 $result[$key] = $this->normalize($value, $format, $context);
             }

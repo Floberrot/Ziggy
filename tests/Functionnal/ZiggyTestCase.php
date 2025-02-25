@@ -3,16 +3,22 @@
 namespace App\Tests\Functionnal;
 
 use App\Shared\Infrastructure\Factory\OwnerFactory;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\Factories;
 
 class ZiggyTestCase extends WebTestCase
 {
-    use HasBrowser {
-        browser as baseKernelBrowser;
-    }
     use Factories;
+
+    protected ?KernelBrowser $client;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->client = $this->createClient();
+    }
 
     protected function loginAsOwner(): void
     {
@@ -21,12 +27,15 @@ class ZiggyTestCase extends WebTestCase
             'password' => 'password',
         ]);
 
-        $this->browser()->post('api/login', [
-            'json' => [
-                'email' => $owner->getEmail(),
-                'password' => 'password',
-            ],
-        ])->assertStatus(200);
+        $this->client->loginUser($owner);
+        $this->assertNotEmpty($this->client->getCookieJar()->all());
+    }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        self::ensureKernelShutdown();
+        $this->client = null;
     }
 }

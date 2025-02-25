@@ -3,34 +3,41 @@
 namespace App\Tests\Functionnal\Task;
 
 use App\Tests\Functionnal\ZiggyTestCase;
-use Zenstruck\Browser\Json;
 
 class AddTaskControllerTest extends ZiggyTestCase
 {
     public function testAddTask(): void
     {
-        $response = $this->browser()->post('/api/tasks', [
-            'json' => [
-                'careType' => 'feeding',
-            ],
-        ])
-            ->assertStatus(201)
-            ->json();
+        $this->loginAsOwner();
 
-        $response->assertThat('message', fn (Json $message) => $this->assertEquals('Task added', $message->decoded()));
-        $response->assertThat('data', fn (Json $data) => $this->assertEquals('feeding', $data->decoded()['careType']));
-        $response->assertThat('data', fn (Json $data) => $this->assertArrayHasKey('id', $data->decoded()));
+        $this->client->request('POST', '/api/tasks', [
+            'careType' => 'feeding',
+        ]);
+
+        $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals('application/json', $this->client->getResponse()->headers->get('Content-Type'));
+        $result = json_decode($this->client->getResponse()->getContent(), true);
+
+        $this->assertArrayHasKey('data', $result);
+        $this->assertArrayHasKey('id', $result['data']);
+        $this->assertArrayHasKey('careType', $result['data']);
+        $this->assertArrayHasKey('done', $result['data']);
+        $this->assertArrayHasKey('comment', $result['data']);
+        $this->assertEquals('feeding', $result['data']['careType']);
+        $this->assertEquals('Task added', $result['message']);
     }
 
-    public function testAddTasButCareTypeNotFound(): void
+    public function testAddTaskButCareTypeEnumIsNotValid(): void
     {
         $this->loginAsOwner();
-        $this->browser()->post('/api/tasks', [
-            'json' => [
-                'careType' => 'nope',
-            ],
-        ])
-            ->assertStatus(422)
-            ->json();
+
+        $this->client->request('POST', '/api/tasks', [
+            'careType' => 'invalid',
+        ]);
+
+        $this->assertEquals(422, $this->client->getResponse()->getStatusCode());
+        $result = json_decode($this->client->getResponse()->getContent(), true);
+
+        $this->assertEquals("The value you selected is not a valid choice. on property : careType. \n", $result['message']);
     }
 }

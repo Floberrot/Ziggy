@@ -2,6 +2,7 @@
 
 namespace App\Shared\Domain\Model;
 
+use BackedEnum;
 use ReflectionClass;
 use Symfony\Component\Serializer\Attribute\Groups;
 
@@ -32,6 +33,11 @@ abstract class Model
                         if (empty($intersect)) {
                             continue;
                         }
+                    }
+
+                    if ($property->getValue($this) instanceof BackedEnum) {
+                        $data[$property->getName()] = $property->getValue($this)->value;
+                        continue;
                     }
 
                     $data[$property->getName()] = $property->getValue($this);

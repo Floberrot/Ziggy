@@ -39,3 +39,9 @@ grumphp:
             configuration: phpstan.neon
             memory_limit: '-1'
             use_grumphp_paths: false
+#        phpunit:
+#            metadata:
+#                priority: 20
+#            testsuite: GRUMP
+#            config_file: phpunit.xml.dist
+
