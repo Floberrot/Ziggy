@@ -22,6 +22,7 @@ class Task extends Model implements Stringable
     #[Groups(['task:read'])]
     private bool $done = false;
 
+    #[Groups(['task:read'])]
     private ?Owner $owner = null;
 
     public function getCareType(): CareTypeEnum

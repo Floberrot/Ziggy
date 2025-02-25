@@ -30,7 +30,6 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api/owners, roles: PUBLIC_ACCESS }
 
 when@test:
     security:

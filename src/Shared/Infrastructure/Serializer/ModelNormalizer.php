@@ -4,7 +4,6 @@ namespace App\Shared\Infrastructure\Serializer;
 
 use App\Shared\Domain\Model\Model;
 use ArrayObject;
-use DateTimeImmutable;
 use ReflectionException;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -31,19 +30,7 @@ readonly class ModelNormalizer implements NormalizerInterface
             return $this->normalizer->normalize($data, $format, $context);
         }
 
-        $result = $data->toNormalized($context);
-
-        foreach ($result as $key => $value) {
-            if (is_object($value)) {
-                $result[$key] = $this->normalize($value, $format, $context);
-            }
-
-            if ($value instanceof DateTimeImmutable){
-                $result[$key] = $value->format('Y-m-d');
-            }
-        }
-
-        return $result;
+        return $data->toNormalized($context);
     }
 
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool

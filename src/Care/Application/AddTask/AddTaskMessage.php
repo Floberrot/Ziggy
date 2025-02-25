@@ -18,4 +18,6 @@ class AddTaskMessage implements Command
     public ?string $comment = null;
 
     public bool $done = false;
+
+    public ?int $ownerId = null;
 }

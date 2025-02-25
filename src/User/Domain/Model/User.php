@@ -10,14 +10,14 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 abstract class User extends Model implements UserInterface, PasswordAuthenticatedUserInterface, Stringable
 {
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'task:read'])]
     private int $id;
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'task:read'])]
     private string $email;
     private string $password;
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'task:read'])]
     private string $firstName;
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'task:read'])]
     private string $lastName;
     private string $phone;
     #[Groups(['user:read'])]

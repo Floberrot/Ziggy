@@ -6,6 +6,8 @@ use App\Care\Domain\Enum\CareTypeEnum;
 use App\Care\Domain\Event\TaskCreated;
 use App\Care\Domain\Model\Task;
 use App\Care\Domain\Repository\TaskRepository;
+use App\Owner\Domain\OwnerNotFound;
+use App\Owner\Domain\Repository\OwnerRepository;
 use App\Shared\Application\Command\CommandHandler;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -15,6 +17,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 readonly class AddTaskHandler implements CommandHandler
 {
     public function __construct(
+        private OwnerRepository          $ownerRepository,
         private TaskRepository           $taskRepository,
         private EventDispatcherInterface $dispatcher,
     )
@@ -30,6 +33,14 @@ readonly class AddTaskHandler implements CommandHandler
         $task->setCareType(CareTypeEnum::from($message->careType))
             ->setComment($message->comment)
             ->setDone($message->done);
+
+        if (isset($message->ownerId)) {
+            if (null === $owner = $this->ownerRepository->find($message->ownerId)) {
+                throw new OwnerNotFound($message->ownerId);
+            }
+
+            $task->setOwner($owner);
+        }
 
         $this->taskRepository->save($task);
 
