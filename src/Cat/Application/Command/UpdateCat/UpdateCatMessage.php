@@ -1,27 +1,23 @@
 <?php
 
-namespace App\Cat\Application\Command\AddCat;
+namespace App\Cat\Application\Command\UpdateCat;
 
 use App\Cat\Domain\Enum\GenderEnum;
 use App\Shared\Application\Command\Command;
 use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Positive;
 
-class AddCatMessage implements Command
+class UpdateCatMessage implements Command
 {
+    public ?int $id = null;
     #[Length(min: 1, max: 255)]
-    #[NotNull]
-    #[NotBlank]
-    public string $name;
+    public ?string $name = null;
     #[Choice(
         callback: [GenderEnum::class, 'getValues'],
     )]
-    #[NotNull]
-    public string $gender;
+    public ?string $gender = null;
     public ?string $breed = null;
     #[Positive]
     public ?float $weight = null;

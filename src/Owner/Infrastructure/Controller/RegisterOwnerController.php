@@ -4,14 +4,12 @@ namespace App\Owner\Infrastructure\Controller;
 
 use App\Owner\Application\Command\RegisterOwner\RegisterOwnerMessage;
 use App\Owner\Domain\Model\Owner;
-use App\Shared\Application\Command\MessengerCommandBus;
-use App\Shared\Application\Query\MessengerQueryBus;
 use App\Shared\Infrastructure\Attribute\Security\IsOwner;
+use App\Shared\Infrastructure\Controller\ZiggyController;
 use App\Shared\Infrastructure\Http\ExceptionResponse;
 use App\Shared\Infrastructure\Http\ZiggyResponse;
 use App\Shared\Infrastructure\Utils\ParameterBag;
 use App\User\Application\Query\GetUser\GetUserMessage;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -20,15 +18,8 @@ use Throwable;
 
 #[Route('', name: 'register_owner', methods: ['POST'])]
 #[IsOwner]
-class RegisterOwnerController extends AbstractController
+class RegisterOwnerController extends ZiggyController
 {
-    public function __construct(
-        private readonly MessengerCommandBus $commandBus,
-        private readonly MessengerQueryBus   $queryBus,
-    )
-    {
-    }
-
     public function __invoke(
         #[MapRequestPayload] RegisterOwnerMessage $message,
     ): JsonResponse

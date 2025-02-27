@@ -116,6 +116,24 @@ class Cat extends Model
         return $this->owners;
     }
 
+    public function update(object $properties): void
+    {
+        foreach ($properties as $property => $value) {
+            $setter = 'set' . ucfirst($property);
+            if (method_exists($this, $setter)) {
+                if ($this->{$property} instanceof GenderEnum) {
+                    $value = GenderEnum::from($value);
+                }
+
+                if ($property === 'birthDate') {
+                    $value = new DateTimeImmutable($value);
+                }
+
+                $this->$setter($value);
+            }
+        }
+    }
+
     public function addOwner(Owner $owner): void
     {
         if ($this->owners->contains($owner)) {
