@@ -4,6 +4,7 @@ namespace App\Shared\Domain\Model;
 
 use BackedEnum;
 use DateTimeInterface;
+use Doctrine\Common\Collections\Collection;
 use ReflectionClass;
 use Symfony\Component\Serializer\Attribute\Groups;
 
@@ -50,6 +51,17 @@ abstract class Model
                         $data[$property->getName()] = $property->getValue($this)->format('Y-m-d H:i:s');
                         continue;
                     }
+
+                    if ($property->getValue($this) instanceof Collection) {
+                        $collections = $property->getValue($this)->toArray();
+                        $normalizedCollections = [];
+                        foreach ($collections as $collection) {
+                            $normalizedCollections[] = $collection->toNormalized($context);
+                        }
+                        $data[$property->getName()] = $normalizedCollections;
+                        continue;
+                    }
+
 
                     $data[$property->getName()] = $property->getValue($this);
                 }

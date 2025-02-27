@@ -35,7 +35,7 @@ readonly class AddCatHandler implements CommandHandler
             ->setBirthDate($command->birthDate ? new DateTimeImmutable($command->birthDate) : null)
             ->setGender(GenderEnum::from($command->gender));
 
-        $this->catRepository->save($cat);
+        $this->catRepository->save($cat, true);
 
         $this->dispatcher->dispatch(new CatCreated($cat));
     }

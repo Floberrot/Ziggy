@@ -12,9 +12,9 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 class Cat extends Model
 {
-    #[Groups(['cat:read'])]
+    #[Groups(['cat:read', 'owner:read'])]
     private int $id;
-    #[Groups(['cat:read'])]
+    #[Groups(['cat:read', 'owner:read'])]
     private string $name;
     #[Groups(['cat:read'])]
     private ?string $breed;

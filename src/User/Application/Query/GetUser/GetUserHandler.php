@@ -11,7 +11,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 #[AsMessageHandler(bus: 'query.bus', method: 'handle')]
-class GetUserHandler implements QueryHandler
+readonly class GetUserHandler implements QueryHandler
 {
     public function __construct(
         private UserRepository $userRepository,

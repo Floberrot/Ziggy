@@ -27,6 +27,7 @@ class AddCatController extends ZiggyController
             $this->commandBus->dispatch($message);
 
             $addedCat = ParameterBag::getInstance()->get('Cat');
+
             $getCatsMessage = new GetCatMessage($addedCat->getId());
             $cat = $this->queryBus->ask($getCatsMessage);
 

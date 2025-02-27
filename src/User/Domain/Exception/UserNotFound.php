@@ -6,8 +6,8 @@ use App\Shared\Domain\Exception\AbstractException;
 
 class UserNotFound extends AbstractException
 {
-    public function __construct(int $id)
+    public function __construct(int $id, string $userType = "User")
     {
-        parent::__construct("User $id not found", 404);
+        parent::__construct("$userType $id not found", 404);
     }
 }
