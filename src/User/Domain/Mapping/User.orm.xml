@@ -19,5 +19,6 @@
         <field name="firstName"/>
         <field name="lastName"/>
         <field name="phone"/>
+        <one-to-many field="tasks" target-entity="App\Care\Domain\Model\Task" mapped-by="user"/>
     </entity>
 </doctrine-mapping>

@@ -44,31 +44,31 @@ class AddTaskControllerTest extends ZiggyTestCase
 
         $this->client->request('POST', '/api/tasks', [
             'careType' => 'feeding',
-            'ownerId' => $newOwner->getId(),
+            'userId' => $newOwner->getId(),
         ]);
 
         $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
         $result = json_decode($this->client->getResponse()->getContent(), true);
 
         $this->assertArrayHasKey('data', $result);
-        $this->assertArrayHasKey('owner', $result['data']);
-        $this->assertEquals($newOwner->getId(), $result['data']['owner']['id']);
-        $this->assertEquals($newOwner->getEmail(), $result['data']['owner']['email']);
-        $this->assertEquals($newOwner->getFirstName(), $result['data']['owner']['firstName']);
-        $this->assertEquals($newOwner->getLastName(), $result['data']['owner']['lastName']);
+        $this->assertArrayHasKey('user', $result['data']);
+        $this->assertEquals($newOwner->getId(), $result['data']['user']['id']);
+        $this->assertEquals($newOwner->getEmail(), $result['data']['user']['email']);
+        $this->assertEquals($newOwner->getFirstName(), $result['data']['user']['firstName']);
+        $this->assertEquals($newOwner->getLastName(), $result['data']['user']['lastName']);
     }
 
     public function testAddTaskButOwnerNotFound(): void
     {
         $this->client->request('POST', '/api/tasks', [
             'careType' => 'feeding',
-            'ownerId' => 99999999,
+            'userId' => 99999999,
         ]);
 
         $this->assertEquals(404, $this->client->getResponse()->getStatusCode());
         $result = json_decode($this->client->getResponse()->getContent(), true);
 
-        $this->assertStringContainsString("Owner not found with id: 9999999", $result['message']);
+        $this->assertStringContainsString("User 99999999 not found", $result['message']);
     }
 
     protected function setUp(): void

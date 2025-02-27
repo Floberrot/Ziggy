@@ -9,7 +9,7 @@
         <field name="careType" length="255" enum-type="App\Care\Domain\Enum\CareTypeEnum"/>
         <field name="comment" type="text" nullable="true"/>
         <field name="done" type="boolean"/>
-        <many-to-one field="owner" target-entity="App\Owner\Domain\Model\Owner"/>
+        <many-to-one field="user" target-entity="App\User\Domain\Model\User"/>
     </entity>
 
 </doctrine-mapping>

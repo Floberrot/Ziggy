@@ -3,6 +3,7 @@
 namespace App\User\Domain\Model;
 
 use App\Shared\Domain\Model\Model;
+use Doctrine\Common\Collections\Collection;
 use Stringable;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -22,6 +23,8 @@ abstract class User extends Model implements UserInterface, PasswordAuthenticate
     private string $phone;
     #[Groups(['user:read'])]
     private array $roles;
+
+    private Collection $tasks;
 
     public function getId(): int
     {
@@ -116,5 +119,17 @@ abstract class User extends Model implements UserInterface, PasswordAuthenticate
     public function __toString(): string
     {
         return json_encode(array_map(fn($value) => $value, get_object_vars($this)));
+    }
+
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function setTasks(Collection $tasks): self
+    {
+        $this->tasks = $tasks;
+
+        return $this;
     }
 }

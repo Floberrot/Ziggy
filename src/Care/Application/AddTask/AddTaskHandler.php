@@ -6,9 +6,9 @@ use App\Care\Domain\Enum\CareTypeEnum;
 use App\Care\Domain\Event\TaskCreated;
 use App\Care\Domain\Model\Task;
 use App\Care\Domain\Repository\TaskRepository;
-use App\Owner\Domain\OwnerNotFound;
-use App\Owner\Domain\Repository\OwnerRepository;
 use App\Shared\Application\Command\CommandHandler;
+use App\User\Domain\Exception\UserNotFound;
+use App\User\Domain\Repository\UserRepository;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -17,7 +17,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 readonly class AddTaskHandler implements CommandHandler
 {
     public function __construct(
-        private OwnerRepository          $ownerRepository,
+        private UserRepository           $userRepository,
         private TaskRepository           $taskRepository,
         private EventDispatcherInterface $dispatcher,
     )
@@ -34,12 +34,12 @@ readonly class AddTaskHandler implements CommandHandler
             ->setComment($message->comment)
             ->setDone($message->done);
 
-        if (isset($message->ownerId)) {
-            if (null === $owner = $this->ownerRepository->find($message->ownerId)) {
-                throw new OwnerNotFound($message->ownerId);
+        if (isset($message->userId)) {
+            if (null === $user = $this->userRepository->find($message->userId)) {
+                throw new UserNotFound($message->userId);
             }
 
-            $task->setOwner($owner);
+            $task->setUser($user);
         }
 
         $this->taskRepository->save($task);
