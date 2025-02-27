@@ -2,7 +2,9 @@
 
 namespace App\Owner\Domain\Model;
 
+use App\Cat\Domain\Model\Cat;
 use App\User\Domain\Model\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 class Owner extends User
@@ -11,16 +13,18 @@ class Owner extends User
 
     private Collection $cats;
 
-    // todo: improve get/set cats
+    public function __construct()
+    {
+        $this->cats = new ArrayCollection();
+    }
+
+    public function addCat(Cat $cat): void
+    {
+        $this->cats->add($cat);
+    }
+
     public function getCats(): Collection
     {
         return $this->cats;
-    }
-
-    public function setCats(Collection $cats): self
-    {
-        $this->cats = $cats;
-
-        return $this;
     }
 }

@@ -23,11 +23,13 @@ abstract class AbstractRepository extends ServiceEntityRepository
         $this->entityName = end($parts);
     }
 
-    public function save(object $entity): void
+    public function save(object $entity, bool $needFlush = false): void
     {
         $this->logger->info('Saving entity', ['entity' => $this->entityName]);
         $this->getEntityManager()->persist($entity);
-        $this->getEntityManager()->flush();
+        if ($needFlush) {
+            $this->getEntityManager()->flush();
+        }
         $this->logger->info('Entity saved' , ['entity' => $this->entityName]);
 
         ParameterBag::getInstance()->set("{$this->entityName}", $entity);

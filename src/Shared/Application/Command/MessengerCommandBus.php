@@ -30,6 +30,7 @@ final readonly class MessengerCommandBus implements CommandBus
         try {
             $this->commandBus->dispatch($command);
             $this->logger->info('command dispatched: ' . $commandName);
+            $this->entityManager->flush();
             $this->entityManager->commit();
             $this->logger->info('transaction committed for command: ' . $commandName);
         } catch (ExceptionInterface $e) {

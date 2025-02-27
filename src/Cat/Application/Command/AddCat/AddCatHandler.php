@@ -3,18 +3,21 @@
 namespace App\Cat\Application\Command\AddCat;
 
 use App\Cat\Domain\Enum\GenderEnum;
+use App\Cat\Domain\Event\CatCreated;
 use App\Cat\Domain\Model\Cat;
 use App\Cat\Domain\Repository\CatRepository;
 use App\Shared\Application\Command\CommandHandler;
 use DateMalformedStringException;
 use DateTimeImmutable;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 #[AsMessageHandler(bus: 'command.bus', method: 'handle')]
 readonly class AddCatHandler implements CommandHandler
 {
     public function __construct(
         private CatRepository $catRepository,
+        private EventDispatcherInterface $dispatcher,
     )
     {
     }
@@ -34,6 +37,6 @@ readonly class AddCatHandler implements CommandHandler
 
         $this->catRepository->save($cat);
 
-        // Domain event to set owner on cat (if error, rollback)
+        $this->dispatcher->dispatch(new CatCreated($cat));
     }
 }

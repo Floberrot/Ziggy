@@ -22,7 +22,7 @@ class AddCatMessage implements Command
     #[NotNull]
     public string $gender;
     public ?string $breed = null;
-    public ?string $weight = null;
+    public ?float $weight = null;
     #[DateTime(format: 'Y-m-d')]
     public ?string $birthDate = null;
     public ?string $color = null;

@@ -10,7 +10,7 @@
 
         <field name="name" unique="true"/>
         <field name="breed" nullable="true"/>
-        <field name="weight" nullable="true"/>
+        <field name="weight" type="float" nullable="true"/>
         <field name="birthDate" type="date_immutable" nullable="true"/>
         <field name="color" nullable="true"/>
         <field name="gender" length="255" enum-type="App\Cat\Domain\Enum\GenderEnum"/>

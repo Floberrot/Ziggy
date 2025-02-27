@@ -3,8 +3,11 @@
 namespace App\Cat\Domain\Model;
 
 use App\Cat\Domain\Enum\GenderEnum;
+use App\Owner\Domain\Model\Owner;
 use App\Shared\Domain\Model\Model;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 class Cat extends Model
@@ -22,7 +25,14 @@ class Cat extends Model
     #[Groups(['cat:read'])]
     private ?DateTimeImmutable $birthDate;
     #[Groups(['cat:read'])]
-    private ?string $weight;
+    private ?float $weight;
+
+    private Collection $owners;
+
+    public function __construct()
+    {
+        $this->owners = new ArrayCollection();
+    }
 
     public function getName(): string
     {
@@ -36,12 +46,12 @@ class Cat extends Model
         return $this;
     }
 
-    public function getWeight(): ?string
+    public function getWeight(): ?float
     {
         return $this->weight;
     }
 
-    public function setWeight(?string $weight): self
+    public function setWeight(?float $weight): self
     {
         $this->weight = $weight;
 
@@ -99,5 +109,20 @@ class Cat extends Model
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getOwners(): Collection
+    {
+        return $this->owners;
+    }
+
+    public function addOwner(Owner $owner): void
+    {
+        if ($this->owners->contains($owner)) {
+            return;
+        }
+
+        $this->owners->add($owner);
+        $owner->addCat($this);
     }
 }
